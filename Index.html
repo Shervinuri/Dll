@@ -54,6 +54,14 @@
         .shake {
             animation: shake 0.3s ease-in-out;
         }
+        /* For custom scrollbar styling if needed */
+        .content-wrapper::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+        }
+        .content-wrapper {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -77,47 +85,45 @@
         </div>
     </div>
 
-    <!-- Main Content (Initially Hidden) -->
-    <div id="main-content" class="flex flex-col h-screen justify-end hidden pb-4">
-
-        <div class="flex flex-col items-center px-4">
-            
-            <div id="datetime-container" class="text-center text-[11px] text-gray-300 mb-2 font-mono"></div>
-
-            <div class="w-full max-w-sm glass-card rounded-2xl p-6 text-left shadow-lg">
-                <h1 class="text-xl sm:text-2xl font-bold text-center wavy-gradient-text mb-6 tracking-tight">
-                    SEYED HAMID AHMADI
-                </h1>
-                <div class="space-y-2 text-sm" dir="ltr">
-                    <p><span class="font-bold text-gray-400">Holder name:</span> Seyed hamid ahmadi</p>
-                    <p><span class="font-bold text-gray-400">Card Number:</span> 4403 9332 9697 1259</p>
-                    <p><span class="font-bold text-gray-400">Expiration Date:</span> 02/26</p>
-                    <p><span class="font-bold text-gray-400">Address:</span> 543 Birch St</p>
-                    <p><span class="font-bold text-gray-400">City:</span> San Francisco</p>
-                    <p><span class="font-bold text-gray-400">State:</span> California</p>
-                    <p><span class="font-bold text-gray-400">Zip Code:</span> 94102</p>
-                    <p><span class="font-bold text-gray-400">Country:</span> USA</p>
-                    <p><span class="font-bold text-gray-400">CVC:</span> 387</p>
+    <!-- Main Content (Initially Hidden) - NEW ROBUST LAYOUT -->
+    <div id="main-content" class="fixed inset-0 flex flex-col items-center justify-end p-4 hidden">
+        <div class="w-full max-w-sm max-h-[65vh] overflow-y-auto content-wrapper">
+             <div class="flex flex-col items-center">
+                <div id="datetime-container" class="text-center text-[11px] text-gray-300 mb-2 font-mono"></div>
+                <div class="w-full max-w-sm glass-card rounded-2xl p-6 text-left shadow-lg">
+                    <h1 class="text-xl sm:text-2xl font-bold text-center wavy-gradient-text mb-6 tracking-tight">
+                        SEYED HAMID AHMADI
+                    </h1>
+                    <div class="space-y-2 text-sm" dir="ltr">
+                        <p><span class="font-bold text-gray-400">Holder name:</span> Seyed hamid ahmadi</p>
+                        <p><span class="font-bold text-gray-400">Card Number:</span> 4403 9332 9697 1259</p>
+                        <p><span class="font-bold text-gray-400">Expiration Date:</span> 02/26</p>
+                        <p><span class="font-bold text-gray-400">Address:</span> 543 Birch St</p>
+                        <p><span class="font-bold text-gray-400">City:</span> San Francisco</p>
+                        <p><span class="font-bold text-gray-400">State:</span> California</p>
+                        <p><span class="font-bold text-gray-400">Zip Code:</span> 94102</p>
+                        <p><span class="font-bold text-gray-400">Country:</span> USA</p>
+                        <p><span class="font-bold text-gray-400">CVC:</span> 387</p>
+                    </div>
+                    
+                    <div class="mt-6 text-right" dir="ltr">
+                         <p class="text-lg font-semibold">
+                            <span class="wavy-gradient-text">Balance: </span>
+                            <span class="text-green-400">$30.63</span>
+                        </p>
+                    </div>
                 </div>
-                
-                <div class="mt-6 text-right" dir="ltr">
-                     <p class="text-lg font-semibold">
-                        <span class="wavy-gradient-text">Balance : </span>
-                        <span class="text-green-400">30.63 $</span>
+                <div class="w-full max-w-sm p-2 mt-2 text-center text-gray-300">
+                    <p class="text-[10px] leading-tight">
+                        The user's identity has been verified by the <a href="https://www.iranicard.ir/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Iranicard</a> collection, and all rights to this Visa credit card account belong to the user with the above specifications.
                     </p>
+                    <p class="text-[9px] mt-2 font-mono">ISO 9001:2015</p>
+                    <p class="text-[9px] text-gray-400">Copyright © 2012 - 2025 iranicard.ir All Rights Reserved.</p>
                 </div>
-            </div>
-
-            <!-- EXTREMELY COMPACT FOOTER (SEPARATE) -->
-            <div class="w-full max-w-sm p-2 mt-2 text-center text-gray-300">
-                <p class="text-[10px] leading-tight">
-                    The user's identity has been verified by the <a href="https://www.iranicard.ir/" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">Iranicard</a> collection, and all rights to this Visa credit card account belong to the user with the above specifications.
-                </p>
-                <p class="text-[9px] mt-2 font-mono">ISO 9001:2015</p>
-                <p class="text-[9px] text-gray-400">Copyright © 2012 - 2025 iranicard.ir All Rights Reserved.</p>
             </div>
         </div>
     </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -143,7 +149,7 @@
             }
             
             updateDateTime();
-            setInterval(updateDateTime, 1000); // Update every second for live clock
+            setInterval(updateDateTime, 1000);
 
             function attemptLogin() {
                 if (passwordInput.value === correctPassword) {
